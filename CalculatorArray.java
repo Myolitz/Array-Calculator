@@ -1,14 +1,19 @@
 /* Project Title: Array Calculator
  * File Name: CalculatorArray.java
- * Date Compiled Last: March 26, 2023
+ * Date Compiled Last: March 28, 2023
  * Author: Myo B)
- * Compiled in: VSC LMAO (Transfer to eclipse later)
- * Version: 1.3.1 (1.4 when fixing NaN)
+ * Compiled in: ??? Windows? Theres a compiler in Eclipse???? Well it has worked so far when doing the javac -> java stuff in terminal
+ * Version: 1.4, Now with Rand Arrays! (Iterate #.#.1 versions on NaN fixes)
  * 
- * Integrity: I have not copied any lines of code from any online resources
+ * Integrity: I have not copied any lines of code from any online resources and this code is my own doing
  * 
- * Exception to Integrity: Notes I've taken, Official Java Documentation
+ * Exception to Integrity: 
+ * Java Docs(?)
+ * Line 78: https://www.javatpoint.com/how-to-generate-random-number-in-java 
  * 
+ * Extra Notes: 
+ * Github for history https://github.com/Myolitz/Array-Calculator
+ * Youtube link for me coding (most of) this: https://www.youtube.com/watch?v=ZzFkrRUfLKI
  */
 
 
