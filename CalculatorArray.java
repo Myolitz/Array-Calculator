@@ -12,10 +12,9 @@
  */
 
 
-package Projects.Calculator;
+package ClassProjects;
 
 import java.util.Scanner;
-import java.util.Random;
 
 public class CalculatorArray {
     public static void main(String[] args) {
@@ -28,6 +27,9 @@ public class CalculatorArray {
         String question2 = "How many values are in the arrays?";
         String question3 = "Enter the values in the first array, separated by spaces:";
         String question4 = "Enter the values in the second array, separated by spaces:";
+        String randQuestion1 = "How many values should be in the random array?";
+        String randQuestion2 = "What is the lower limit for the random number?";
+        String randQuestion3 = "What is the upper limit for the random number?";
         String results = "The result is ";
         String resultEnd = "]";
         int arrslen;
@@ -35,6 +37,9 @@ public class CalculatorArray {
         boolean errDiv = false;
         int errPos = 0;
         double dotProd = 0;
+        int randArrLen;
+        int randUpLimit;
+        int randLowLimit;
 
         //Menu printing
         for (int i = 0; i < menu.length; i++) {
@@ -53,7 +58,32 @@ public class CalculatorArray {
         if (operation == 7) {
             System.out.print("Goodbye!");
         }
-        else {
+        else if (operation == 6) {
+
+            System.out.println(randQuestion1);
+            randArrLen = input.nextInt();
+
+            double[] randArr = new double[randArrLen];
+            
+            System.out.println(randQuestion2);
+            randLowLimit = input.nextInt();
+
+            System.out.println(randQuestion3);
+            randUpLimit = input.nextInt();
+
+            for (int i = 0; i < randArrLen; i++) {
+                randArr[i] = Math.random()*(randUpLimit - randLowLimit + 1) + randLowLimit;
+            }
+
+            System.out.print(results + "[");
+            for (int i = 0; i < randArrLen - 1; i++) {
+                System.out.print(randArr[i] + ", ");
+            }
+
+            System.out.print(randArr[randArrLen - 1] + resultEnd);
+            
+        }
+        else if (operation != 6 && operation != 7) {
             //Num of nums in arrs
             System.out.println(question2);
             arrslen = input.nextInt();
