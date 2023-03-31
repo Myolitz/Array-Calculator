@@ -1,9 +1,9 @@
 /* Project Title: Array Calculator
  * File Name: CalculatorArray.java
- * Date Compiled Last: March 28, 2023
+ * Date Compiled Last: March 31, 2023
  * Author: Myo B)
- * Compiled in: ??? Windows? Theres a compiler in Eclipse???? Well it has worked so far when doing the javac -> java stuff in terminal
- * Version: 1.4, Now with Rand Arrays! (Iterate #.#.1 versions on NaN fixes)
+ * Compiled in: Eclispe 2022-12
+ * Version: 1.4.1, Now with proper NaN support!!!
  * 
  * Integrity: I have not copied any lines of code from any online resources and this code is my own doing
  * 
@@ -40,7 +40,6 @@ public class CalculatorArray {
         int arrslen;
         int operation;
         boolean errDiv = false;
-        int errPos = 0;
         double dotProd = 0;
         int randArrLen;
         int randUpLimit;
@@ -60,11 +59,12 @@ public class CalculatorArray {
         System.out.println(question1);
         operation = input.nextInt();
 
+        //Goodbye 
         if (operation == 7) {
             System.out.print("Goodbye!");
         }
+        //Random Array Questionaire
         else if (operation == 6) {
-
             System.out.println(randQuestion1);
             randArrLen = input.nextInt();
 
@@ -88,6 +88,7 @@ public class CalculatorArray {
             System.out.print(randArr[randArrLen - 1] + resultEnd);
             
         }
+        //1-5
         else if (operation != 6 && operation != 7) {
             //Num of nums in arrs
             System.out.println(question2);
@@ -96,8 +97,7 @@ public class CalculatorArray {
             int[] primArr = new int[arrslen];
             int[] secArr = new int[arrslen];
             double[] resultArr = new double[arrslen];
-
-            //TODO Add alternate menu for random array and place if statement to swap between normal and rand limits
+            int[] errPos = new int[arrslen];
 
             //Grabs first array
             System.out.println(question3);
@@ -135,7 +135,7 @@ public class CalculatorArray {
                 case 4: //Division
                     for(int i = 0; i < arrslen; i++) {
                         if (secArr[i] == 0) {
-                            errPos = i;
+                            errPos[i] = i;
                             errDiv = true;
                             resultArr[i] = 0;
                         }
@@ -169,21 +169,29 @@ public class CalculatorArray {
                 System.out.print("[");
                 for (int i = 0; i < arrslen - 1; i++) {
                     if (errDiv == true) {
-                        if (errPos == i) {
+                        if (errPos[i] == i) {
                             System.out.print("NaN");
-                            if (i != arrslen) {
+                            if (resultArr[i] == 0 && errPos[i] == i) {
                                 System.out.print(", ");
+                            }
+                            else if (errPos[i] == arrslen - 1) {
+                                System.out.print("NaN");
                             }
                         }
                         else {
-                            System.out.print(resultArr[i] + ", ");
+                            System.out.print("NaN");
                         } 
                     }
                     else {
                         System.out.print(resultArr[i] + ", ");
                     }
                 }
-                System.out.print(resultArr[arrslen - 1] + resultEnd);
+                if (errDiv == true) {
+                    System.out.print("NaN" + resultEnd);
+                }
+                else if (errDiv == false) {
+                    System.out.print(resultArr[arrslen - 1] + resultEnd);
+                } 
             }
             else {
                 System.out.print(dotProd);
