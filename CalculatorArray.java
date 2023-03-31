@@ -3,7 +3,7 @@
  * Date Compiled Last: March 31, 2023
  * Author: Myo B)
  * Compiled in: Eclispe 2022-12
- * Version: 1.4.1, Now with proper NaN support!!!
+ * Version: 1.4.2, Now with proper NaN support!!! (Though still not fully done)
  * 
  * Integrity: I have not copied any lines of code from any online resources and this code is my own doing
  * 
@@ -137,11 +137,12 @@ public class CalculatorArray {
                         if (secArr[i] == 0) {
                             errPos[i] = i;
                             errDiv = true;
-                            resultArr[i] = 0;
+                            //System.out.println("NaN");
                         }
                         else {
                         double tempSum = (double)primArr[i] / secArr[i];
                         resultArr[i] = tempSum;
+                        //System.out.println("resultArr[i]: " + resultArr[i]);
                         }
                     }
                     break;
@@ -154,14 +155,9 @@ public class CalculatorArray {
                         dotProd += resultArr[i];
                     }
                     break;
-                case 6:
-                    //TODO Random Array Generation
-                    break;
                 default:
                     break;
             }
-
-            //FIXME Account for NaN when dividing by 0 WHEN in last index
 
             //Final output of results
             System.out.print(results);
@@ -171,15 +167,15 @@ public class CalculatorArray {
                     if (errDiv == true) {
                         if (errPos[i] == i) {
                             System.out.print("NaN");
-                            if (resultArr[i] == 0 && errPos[i] == i) {
+                            if (resultArr[i] == 0 && errPos[i] == i) { //TODO Fix issue outlined in ExampleMarch31.png
                                 System.out.print(", ");
                             }
                             else if (errPos[i] == arrslen - 1) {
                                 System.out.print("NaN");
                             }
                         }
-                        else {
-                            System.out.print("NaN");
+                        else if (errPos[i] != i) {
+                            System.out.print(resultArr[i] + ", ");
                         } 
                     }
                     else {
