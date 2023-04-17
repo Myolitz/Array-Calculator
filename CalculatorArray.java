@@ -3,7 +3,7 @@
  * Date Compiled Last: March 31, 2023
  * Author: Myo B)
  * Compiled in: Eclispe 2022-12
- * Version: 1.4.2, Now with proper NaN support!!! (Though still not fully done)
+ * Version: 1.4.4, Fully Working NaN Support!!!
  * 
  * Integrity: I have not copied any lines of code from any online resources and this code is my own doing
  * 
@@ -25,8 +25,8 @@ public class CalculatorArray {
     public static void main(String[] args) {
         Scanner input = new Scanner(System.in);
 
-        //Variables/Arrs
-        
+        //Arrs
+        //Maybe could've had the questions be an array like the menu, meh
         String[] menu = {"Menu", "Add", "Subtract", "Multiply", "Divide", "Dot product", "Generate Random array", "Quit"};
         String question1 = "What would you like to do?";
         String question2 = "How many values are in the arrays?";
@@ -37,9 +37,11 @@ public class CalculatorArray {
         String randQuestion3 = "What is the upper limit for the random number?";
         String results = "The result is ";
         String resultEnd = "]";
+
+        //Vars
         int arrslen;
         int operation;
-        boolean errDiv = false;
+        boolean errDiv = false; //This and below function exclusively for division
         double dotProd = 0;
         int randArrLen;
         int randUpLimit;
@@ -68,6 +70,7 @@ public class CalculatorArray {
             System.out.println(randQuestion1);
             randArrLen = input.nextInt();
 
+            //Array initialized inside as randArrLen is not set beforehand
             double[] randArr = new double[randArrLen];
             
             System.out.println(randQuestion2);
@@ -94,6 +97,7 @@ public class CalculatorArray {
             System.out.println(question2);
             arrslen = input.nextInt();
 
+            //See Line 73
             int[] primArr = new int[arrslen];
             int[] secArr = new int[arrslen];
             double[] resultArr = new double[arrslen];
@@ -113,6 +117,7 @@ public class CalculatorArray {
                 secArr[i] = tempVal;
             }
 
+            //Operation switch
             switch (operation) {
                 case 1: //Addition
                     for(int i = 0; i < arrslen; i++) {
@@ -134,19 +139,20 @@ public class CalculatorArray {
                     break;
                 case 4: //Division
                     for(int i = 0; i < arrslen; i++) {
-                        if (secArr[i] == 0) {
+                        //Checks for any dype of division by 0
+                        if (secArr[i] == 0) { 
                             errPos[i] = i;
                             errDiv = true;
-                            //System.out.println("NaN");
+                            resultArr[i] = 0;
                         }
                         else {
                         double tempSum = (double)primArr[i] / secArr[i];
                         resultArr[i] = tempSum;
-                        //System.out.println("resultArr[i]: " + resultArr[i]);
+                        //System.out.println("resultArr[" + i + "]: " + resultArr[i]);
                         }
                     }
                     break;
-                case 5:
+                case 5: //Dot Product [(a+b) * (c+d) * (e*f) = g]
                     for(int i = 0; i < arrslen; i++) {
                         int tempSum = primArr[i] * secArr[i];
                         resultArr[i] = tempSum;
@@ -163,29 +169,37 @@ public class CalculatorArray {
             System.out.print(results);
             if (operation != 5) {
                 System.out.print("[");
-                for (int i = 0; i < arrslen - 1; i++) {
+                for (int i = 0; i <= arrslen - 1; i++) {
+                    //If division by 0 is detected
                     if (errDiv == true) {
-                        if (errPos[i] == i) {
-                            System.out.print("NaN");
-                            if (resultArr[i] == 0 && errPos[i] == i) { //TODO Fix issue outlined in ExampleMarch31.png
-                                System.out.print(", ");
+                        //Since wherever the division was set resultArr[i] to 0, checks values
+                        if (resultArr[i] != 0) {
+                            if (i != arrslen - 1) {
+                                System.out.print(resultArr[i] + ", ");
                             }
-                            else if (errPos[i] == arrslen - 1) {
-                                System.out.print("NaN");
+                            else {
+                                System.out.print(resultArr[i] + resultEnd);
                             }
                         }
-                        else if (errPos[i] != i) {
-                            System.out.print(resultArr[i] + ", ");
-                        } 
+                        //If it is 0, it was NaN
+                        else if (resultArr[i] == 0) {
+                            if (i != arrslen - 1) {
+                                System.out.print("NaN, ");
+                            }
+                            else {
+                                System.out.print("NaN]");
+                            }
+                        }
+                    // else if (errPos[i] != i) { //Unsure what this was for tbh
+                    //     System.out.print(resultArr[i] + ", ");
+                    // } 
                     }
                     else {
                         System.out.print(resultArr[i] + ", ");
                     }
                 }
-                if (errDiv == true) {
-                    System.out.print("NaN" + resultEnd);
-                }
-                else if (errDiv == false) {
+                //Well if no division fails happened then just print as normal
+                if (errDiv == false) {
                     System.out.print(resultArr[arrslen - 1] + resultEnd);
                 } 
             }
@@ -194,7 +208,6 @@ public class CalculatorArray {
             }
 
         }
-         
         input.close();
     }
 }
