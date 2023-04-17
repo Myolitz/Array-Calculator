@@ -1,0 +1,215 @@
+/* Project Title: Array Calculator
+ * File Name: Calculator.java
+ * Date Compiled Last: April 17, 2023
+ * Author: Jesus Cardenas
+ * Compiled in: Eclipse 2022-12 [1]
+ * Version: 1.4.5, F.F.N (Fully Functional NaN!)
+ * 
+ * Integrity: I have not copied any lines of code from any online resources and this code is my own doing
+ * 
+ * Exception to Integrity: 
+ * Java Docs(?)
+ * Line 78: https://www.javatpoint.com/how-to-generate-random-number-in-java 
+ * 
+ * Extra Notes: 
+ * Github for history https://github.com/Myolitz/Array-Calculator
+ * Youtube link for me coding (most of) this: https://www.youtube.com/watch?v=ZzFkrRUfLKI
+ * [1] Coded in VSC, though nothing changes when doing javac -> java on eclipse
+ */
+
+import java.util.Scanner;
+
+public class Calculator {
+	public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+
+        //Arrs
+        //Maybe could've had the questions be an array like the menu, meh
+        String[] menu = {"Menu", "Add", "Subtract", "Multiply", "Divide", "Dot product", "Generate Random array", "Quit"};
+        String question1 = "What would you like to do?";
+        String question2 = "How many values are in the arrays?";
+        String question3 = "Enter the values in the first array, separated by spaces:";
+        String question4 = "Enter the values in the second array, separated by spaces:";
+        String randQuestion1 = "How many values should be in the random array?";
+        String randQuestion2 = "What is the lower limit for the random number?";
+        String randQuestion3 = "What is the upper limit for the random number?";
+        String results = "The result is ";
+        String resultEnd = "]";
+
+        //Vars
+        int arrslen;
+        int operation;
+        //Below is division exclusive
+        boolean errDiv = false; 
+        double dotProd = 0;
+        //Exclusive to Random Array
+        int randArrLen;
+        int randUpLimit;
+        int randLowLimit;
+
+        //Menu printing
+        for (int i = 0; i < menu.length; i++) {
+            if (i == 0) {
+                System.out.println(menu[0]);
+            }
+            else {
+            System.out.println(i + ". " + menu[i]);
+            }
+        }
+
+        //Operation config via input
+        System.out.println(question1);
+        operation = input.nextInt();
+
+        //Goodbye 
+        if (operation == 7) {
+            System.out.print("Goodbye!");
+        }
+        //Random Array Questionnaire
+        else if (operation == 6) {
+            System.out.println(randQuestion1);
+            randArrLen = input.nextInt();
+
+            //Array initialized inside as randArrLen is not set beforehand
+            double[] randArr = new double[randArrLen];
+            
+            System.out.println(randQuestion2);
+            randLowLimit = input.nextInt();
+
+            System.out.println(randQuestion3);
+            randUpLimit = input.nextInt();
+
+            //Exception to integrity, couldn't get util.random to work as intended
+            for (int i = 0; i < randArrLen; i++) {
+                randArr[i] = Math.random()*(randUpLimit - randLowLimit + 1) + randLowLimit;
+            }
+
+            System.out.print(results + "[");
+            for (int i = 0; i < randArrLen - 1; i++) {
+                System.out.print(randArr[i] + ", ");
+            }
+
+            System.out.print(randArr[randArrLen - 1] + resultEnd);
+            
+        }
+        //1-5
+        else if (operation != 6 && operation != 7) {
+            //Num of nums in arrs
+            System.out.println(question2);
+            arrslen = input.nextInt();
+
+            //See Line 73
+            int[] primArr = new int[arrslen];
+            int[] secArr = new int[arrslen];
+            double[] resultArr = new double[arrslen];
+            int[] errPos = new int[arrslen];
+
+            //Grabs first array
+            System.out.println(question3);
+            for (int i = 0; i < arrslen; i++) {
+                int tempVal = input.nextInt();
+                primArr[i] = tempVal;
+            }
+
+            //Grabs second array
+            System.out.println(question4);
+            for (int i = 0; i < arrslen; i++) {
+                int tempVal = input.nextInt();
+                secArr[i] = tempVal;
+            }
+
+            //Operation switch
+            switch (operation) {
+                case 1: //Addition
+                    for(int i = 0; i < arrslen; i++) {
+                        int tempSum = primArr[i] + secArr[i];
+                        resultArr[i] = tempSum;
+                    }
+                    break;
+                case 2: //Subtraction
+                    for(int i = 0; i < arrslen; i++) {
+                        int tempSum = primArr[i] - secArr[i];
+                        resultArr[i] = tempSum;
+                    }
+                    break;
+                case 3: //Multiplication
+                    for(int i = 0; i < arrslen; i++) {
+                        int tempSum = primArr[i] * secArr[i];
+                        resultArr[i] = tempSum;
+                    }
+                    break;
+                case 4: //Division
+                    for(int i = 0; i < arrslen; i++) {
+                        //Checks for any attempt of #/0
+                        if (secArr[i] == 0) { 
+                            errPos[i] = i;
+                            errDiv = true;
+                            resultArr[i] = 0;
+                        }
+                        else {
+                        double tempSum = (double)primArr[i] / secArr[i];
+                        resultArr[i] = tempSum;
+                        //System.out.println("resultArr[" + i + "]: " + resultArr[i]);
+                        }
+                    }
+                    break;
+                case 5: //Dot Product [(1a * 2a) + (1b + 2b) + (1c * 2c) = x]
+                    for(int i = 0; i < arrslen; i++) {
+                        int tempSum = primArr[i] * secArr[i];
+                        resultArr[i] = tempSum;
+                    }
+                    for(int i = 0; i < arrslen; i++) {
+                        dotProd += resultArr[i];
+                    }
+                    break;
+                default:
+                    break;
+            }
+
+            //Final output of results
+            System.out.print(results);
+            if (operation != 5) {
+                System.out.print("[");
+                for (int i = 0; i < arrslen ; i++) {
+                    //If division by 0 is detected
+                    if (errDiv == true) {
+                        //Since wherever the impossible division was set resultArr[i] to 0, checks values of resultArr
+                        if (resultArr[i] != 0) {
+                            if (i != arrslen - 1) {
+                                System.out.print(resultArr[i] + ", ");
+                            }
+                            else {
+                                System.out.print(resultArr[i] + resultEnd);
+                            }
+                        }
+                        //If it is 0, it was NaN
+                        else if (resultArr[i] == 0) {
+                            if (i != arrslen - 1) {
+                                System.out.print("NaN, ");
+                            }
+                            else if (i == arrslen -1){
+                                System.out.print("NaN]");
+                            }
+                        }
+                    //Unsure what this was for tbh
+                    // else if (errPos[i] != i) { 
+                    //     System.out.print(resultArr[i] + ", ");
+                    // } 
+                    }
+                    else if (errDiv == false) {
+                    	if (i == arrslen - 1) {
+                        System.out.print(resultArr[i] + resultEnd);
+                    	}
+                    	if (i != arrslen - 1) {
+                    	System.out.print(resultArr[i] + ", ");
+                    	}                                	                   	
+                	}      
+                }
+            }
+            else {
+                System.out.print(dotProd);
+            }
+        }
+		input.close();	
+	}
+}
